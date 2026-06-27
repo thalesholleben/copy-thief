@@ -1,0 +1,12 @@
+# Material bruto raspado de fontes de terceiros (copyright/PII de terceiros).
+# Não é necessário para o skill funcionar: a síntese própria está em reference/.
+.firecrawl/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*~

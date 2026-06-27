@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>copy-thief · Briefing da página de vendas</title>
+<style>
+  :root{
+    --bg:#0f1115; --card:#171a21; --line:#262b36; --text:#e7e9ee; --muted:#9aa3b2;
+    --accent:#6ee7a8; --accent2:#3b82f6; --field:#11141a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{max-width:760px;margin:0 auto;padding:28px 18px 80px;}
+  header h1{font-size:22px;margin:0 0 4px;}
+  header p{color:var(--muted);margin:0 0 22px;}
+  fieldset{border:1px solid var(--line);border-radius:12px;padding:18px;margin:0 0 18px;background:var(--card);}
+  legend{padding:0 8px;color:var(--accent);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.04em;}
+  label{display:block;margin:14px 0 6px;font-weight:600;font-size:14px;}
+  label .hint{display:block;font-weight:400;color:var(--muted);font-size:12.5px;margin-top:2px;}
+  input,select,textarea{width:100%;padding:10px 12px;border-radius:9px;border:1px solid var(--line);
+    background:var(--field);color:var(--text);font:inherit;}
+  textarea{min-height:74px;resize:vertical;}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent2);}
+  .req{color:var(--accent);}
+  .actions{position:sticky;bottom:0;background:linear-gradient(180deg,transparent,var(--bg) 36%);
+    padding-top:18px;display:flex;gap:10px;flex-wrap:wrap;}
+  button{cursor:pointer;border:none;border-radius:10px;padding:13px 18px;font:600 15px/1 inherit;}
+  .primary{background:var(--accent);color:#06281a;}
+  .ghost{background:transparent;color:var(--text);border:1px solid var(--line);}
+  #out{margin-top:18px;display:none;}
+  #out textarea{min-height:240px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;}
+  .ok{color:var(--accent);font-size:13px;margin-left:6px;}
+  .note{color:var(--muted);font-size:13px;margin-top:8px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Briefing da página de vendas · copy-thief</h1>
+    <p>Preencha o que souber. Campos com <span class="req">*</span> são o mínimo para começar. No
+      fim, clique em <strong>Copiar respostas</strong> e cole o bloco no chat com o Claude.</p>
+  </header>
+
+  <form id="f">
+    <fieldset>
+      <legend>1. Produto e página</legend>
+      <label>Produto ou serviço <span class="req">*</span>
+        <span class="hint">Nome e o que é (ex.: curso de tráfego pago, mentoria, SaaS, serviço).</span>
+        <input name="produto" required />
+      </label>
+      <label>Tipo de página desejada
+        <select name="tipo_pagina">
+          <option>Landing page de vendas</option>
+          <option>Advertorial / pré-venda + landing page</option>
+          <option>VSL (roteiro de vídeo de vendas)</option>
+          <option>Ainda não sei, me ajude a decidir</option>
+        </select>
+      </label>
+      <label>Preço e formato de pagamento
+        <span class="hint">Ex.: R$ 497 à vista ou 12x de R$ 49. Tem order bump/upsell?</span>
+        <input name="preco" />
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>2. Avatar (para quem você vende)</legend>
+      <label>Quem é o avatar <span class="req">*</span>
+        <span class="hint">Quem é a pessoa, o contexto, o momento de vida/negócio dela.</span>
+        <textarea name="avatar" required></textarea>
+      </label>
+      <label>Dor / problema principal <span class="req">*</span>
+        <textarea name="dor"></textarea>
+      </label>
+      <label>Desejo / resultado dos sonhos <span class="req">*</span>
+        <textarea name="desejo"></textarea>
+      </label>
+      <label>Principais objeções
+        <span class="hint">O que faz a pessoa não comprar (preço, tempo, "será que funciona pra mim", desconfiança).</span>
+        <textarea name="objecoes"></textarea>
+      </label>
+      <label>Como o avatar fala
+        <span class="hint">Gírias, termos, jeito de falar. Cole uma frase real dele se tiver.</span>
+        <textarea name="linguagem"></textarea>
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>3. Tráfego e anúncio (tráfego frio)</legend>
+      <label>De onde vem o tráfego
+        <select name="origem">
+          <option>Meta (interesse amplo / frio)</option>
+          <option>Meta (retargeting / morno)</option>
+          <option>Google Pesquisa (categoria/solução)</option>
+          <option>Google Pesquisa (marca/produto)</option>
+          <option>Native ads (Taboola/Outbrain)</option>
+          <option>Lista / quente</option>
+          <option>Mistura / não sei</option>
+        </select>
+      </label>
+      <label>Ângulo e promessa do anúncio
+        <span class="hint">O que o criativo diz/promete. Cole a copy do anúncio se tiver (para o message match).</span>
+        <textarea name="anuncio"></textarea>
+      </label>
+      <label>Nível de consciência do tráfego
+        <span class="hint">Se não souber, deixe em "não sei" que o Claude diagnostica.</span>
+        <select name="consciencia">
+          <option>Não sei (diagnosticar)</option>
+          <option>Inconsciente (não sabe que tem o problema)</option>
+          <option>Consciente do problema</option>
+          <option>Consciente da solução</option>
+          <option>Consciente do produto</option>
+          <option>Totalmente consciente (pronto para comprar)</option>
+        </select>
+      </label>
+      <label>Sofisticação do mercado
+        <select name="sofisticacao">
+          <option>Não sei (diagnosticar)</option>
+          <option>1: mercado novo, ninguém fez essa promessa</option>
+          <option>2: alguns concorrentes, mesma promessa</option>
+          <option>3: promessas saturadas, precisa de mecanismo</option>
+          <option>4: mecanismos saturados</option>
+          <option>5: mercado exausto e cético</option>
+        </select>
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>4. Oferta, mecanismo e prova</legend>
+      <label>O que está incluso na oferta <span class="req">*</span>
+        <span class="hint">Módulos, entregáveis, acesso, suporte. Tudo que a pessoa recebe.</span>
+        <textarea name="oferta"></textarea>
+      </label>
+      <label>Bônus
+        <textarea name="bonus"></textarea>
+      </label>
+      <label>Garantia
+        <span class="hint">Ex.: 7 dias, incondicional, condicional. Se não tem, escreva "não tem".</span>
+        <input name="garantia" />
+      </label>
+      <label>Mecanismo único
+        <span class="hint">O "como" diferente, o método/segredo que te tira da comparação. Se não tem, deixe em branco.</span>
+        <textarea name="mecanismo"></textarea>
+      </label>
+      <label>Prova disponível <span class="req">*</span>
+        <span class="hint">Depoimentos, números (alunos/clientes/resultados), casos, autoridade, mídia. Seja específico e REAL.</span>
+        <textarea name="prova"></textarea>
+      </label>
+      <label>Diferencial / USP
+        <textarea name="usp"></textarea>
+      </label>
+      <label>Concorrentes ou referências
+        <textarea name="concorrentes"></textarea>
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>5. Ação e estilo</legend>
+      <label>CTA / próximo passo
+        <span class="hint">O que a pessoa faz (comprar agora, agendar call, baixar, entrar no grupo).</span>
+        <input name="cta" />
+      </label>
+      <label>Urgência / escassez real
+        <span class="hint">Prazo, vagas, lote, bônus que sai. Só o que for verdade.</span>
+        <input name="urgencia" />
+      </label>
+      <label>Tom de voz e restrições
+        <span class="hint">Como soar, e o que evitar. (Padrão da skill: PT-BR, sem travessão nem hífen solto como pontuação.)</span>
+        <textarea name="tom"></textarea>
+      </label>
+      <label>Observações livres
+        <textarea name="obs"></textarea>
+      </label>
+    </fieldset>
+
+    <div class="actions">
+      <button type="button" class="primary" onclick="gerar()">Copiar respostas</button>
+      <button type="button" class="ghost" onclick="baixar()">Baixar JSON</button>
+      <span id="copiado" class="ok"></span>
+    </div>
+  </form>
+
+  <div id="out">
+    <p class="note">Bloco gerado. Se o botão copiar não funcionar, selecione tudo abaixo e copie manualmente, depois cole no chat.</p>
+    <textarea id="bloco" readonly></textarea>
+  </div>
+</div>
+
+<script>
+  const labels = {
+    produto:"Produto/serviço", tipo_pagina:"Tipo de página", preco:"Preço/pagamento",
+    avatar:"Avatar", dor:"Dor principal", desejo:"Desejo/resultado dos sonhos",
+    objecoes:"Objeções", linguagem:"Como o avatar fala",
+    origem:"Origem do tráfego", anuncio:"Ângulo/promessa do anúncio",
+    consciencia:"Nível de consciência", sofisticacao:"Sofisticação do mercado",
+    oferta:"Oferta (o que inclui)", bonus:"Bônus", garantia:"Garantia",
+    mecanismo:"Mecanismo único", prova:"Prova disponível", usp:"Diferencial/USP",
+    concorrentes:"Concorrentes/referências", cta:"CTA/próximo passo",
+    urgencia:"Urgência/escassez", tom:"Tom e restrições", obs:"Observações"
+  };
+
+  function coletar(){
+    const f = document.getElementById('f');
+    const data = {};
+    for(const key in labels){
+      const el = f.elements[key];
+      data[key] = el ? el.value.trim() : "";
+    }
+    return data;
+  }
+
+  function montarBloco(data){
+    let s = "=== BRIEFING COPY-THIEF ===\n";
+    for(const key in labels){
+      const v = data[key] || "(não informado)";
+      s += labels[key] + ": " + v + "\n";
+    }
+    s += "=== FIM DO BRIEFING ===";
+    return s;
+  }
+
+  function gerar(){
+    const data = coletar();
+    if(!data.produto || !data.avatar){
+      alert("Preencha pelo menos o Produto e o Avatar antes de copiar.");
+      return;
+    }
+    const bloco = montarBloco(data);
+    document.getElementById('bloco').value = bloco;
+    document.getElementById('out').style.display = 'block';
+    const msg = document.getElementById('copiado');
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(bloco).then(
+        ()=>{ msg.textContent = "Copiado. Cole no chat."; },
+        ()=>{ msg.textContent = "Selecione o texto abaixo e copie."; }
+      );
+    } else {
+      const t = document.getElementById('bloco'); t.focus(); t.select();
+      msg.textContent = "Selecione o texto abaixo e copie.";
+    }
+    document.getElementById('out').scrollIntoView({behavior:'smooth'});
+  }
+
+  function baixar(){
+    const data = coletar();
+    const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = "briefing-copy-thief.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+</script>
+</body>
+</html>
