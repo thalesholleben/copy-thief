@@ -21,7 +21,7 @@ e só escreve a copy **depois que você aprova**.
 
 ## Instalação
 Para o Claude Code reconhecer como skill ativa, copie ou aponte esta pasta para
-`~/.claude/skills/copy-thief` (no Windows, `C:\Users\Thales\.claude\skills\copy-thief`).
+`~/.claude/skills/copy-thief` (no Windows, `%USERPROFILE%\.claude\skills\copy-thief`). No Codex a pasta é `~/.agents/skills/copy-thief`.
 
 ## Estrutura
 ```
@@ -53,3 +53,6 @@ Google. A síntese própria desse material vive em `reference/`.
 ## Regra de estilo (importante)
 Toda copy gerada é PT-BR e **nunca** usa travessão `—` nem hífen isolado ` - ` como pontuação
 (preferência do Thales). Hífen dentro de palavra é permitido.
+
+## Mais skills para tráfego
+A copy-thief faz parte do [Pack Tráfego e Marketing](https://skills.thalesgomes.com/pack/trafego), com 12 skills de Claude Code e Codex para gestor de tráfego: Meta Ads, Google Ads, copy, medição e diagnóstico de página e funil. Esta aqui continua grátis e aberta.
